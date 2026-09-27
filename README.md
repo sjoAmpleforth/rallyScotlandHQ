@@ -4,3 +4,4 @@ Machine-readable feed for the Rally Scotland 2027 trip, written by the hourly ch
 
 - `whatsapp.txt`: the current group-chat update, exactly as the Rally HQ page's Copy text button copies it (no trailing newline).
 - `updated.txt`: when that message last changed, `YYYY-MM-DDTHH:MM` UK time. The shortcut sends only when this differs from what it last sent.
+- `sync.py`: run `python3 sync.py <saved-page.html>` to rewrite both files from the page's trip data. The hourly check uses it so the files are always written the same way.
