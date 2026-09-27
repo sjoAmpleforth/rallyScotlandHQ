@@ -18,10 +18,11 @@ def main():
     if not m:
         sys.exit("ERROR: trip-data JSON block not found in the page")
     data = json.loads(m.group(1))
-    wanted = {"whatsapp.txt": data["whatsapp"], "updated.txt": data["lastChecked"]}
-    for name, value in wanted.items():
-        if not isinstance(value, str) or not value.strip():
-            sys.exit(f"ERROR: {name} source value is empty or not text")
+    wanted = {"whatsapp.txt": data.get("whatsapp"), "updated.txt": data.get("lastChecked")}
+    if not isinstance(wanted["whatsapp.txt"], str) or not wanted["whatsapp.txt"].strip():
+        sys.exit("ERROR: whatsapp message is missing or empty")
+    if not isinstance(wanted["updated.txt"], str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}", wanted["updated.txt"]):
+        sys.exit("ERROR: lastChecked is missing or not YYYY-MM-DDTHH:MM")
     root = pathlib.Path(__file__).resolve().parent
     changed = False
     for name, value in wanted.items():
